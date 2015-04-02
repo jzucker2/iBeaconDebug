@@ -28,6 +28,7 @@
     self.iBeaconButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.iBeaconButton setTitle:NSLocalizedString(@"Turn on iBeacon", nil) forState:UIControlStateNormal];
     [self.iBeaconButton setTitle:NSLocalizedString(@"Turn off iBeacon", nil) forState:UIControlStateSelected];
+    [self.iBeaconButton sizeToFit];
     [self.iBeaconButton addTarget:self action:@selector(iBeaconButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.iBeaconButton];
     
@@ -41,19 +42,24 @@
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
+    self.iBeaconButton.center = self.view.center;
 }
 
 #pragma mark - Actions
 
 - (void)iBeaconButtonTapped:(id)sender {
-    
+    if (self.peripheralManager.isAdvertising) {
+        [self stopAdvertising];
+    } else {
+        [self startAdvertising];
+    }
 }
 
 #pragma mark - iBeacon
 
 - (void)startAdvertising {
-    CLBeaconRegion *beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:kProximityUUIDString major:kMajorValue minor:kMinorValue identifier:@"test-region"];
-    NSMutableDictionary *iBeaconDictionary = [[CLBeaconRegion alloc] peripheralDataWithMeasuredPower:nil];
+    CLBeaconRegion *beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:TEST_UUID major:kMajorValue minor:kMinorValue identifier:@"test-region"];
+    NSMutableDictionary *iBeaconDictionary = [beaconRegion peripheralDataWithMeasuredPower:nil];
     [self.peripheralManager startAdvertising:iBeaconDictionary];
 }
 
