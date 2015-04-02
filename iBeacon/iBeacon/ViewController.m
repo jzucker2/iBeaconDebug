@@ -56,7 +56,7 @@
     self.iBeaconButton.selected = self.peripheralManager.isAdvertising;
 }
 
-#pragma mark - iBeacon
+#pragma mark - CBPeripheralManager
 
 - (void)startAdvertising {
     CLBeaconRegion *beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:TEST_UUID major:kMajorValue minor:kMinorValue identifier:@"test-region"];
