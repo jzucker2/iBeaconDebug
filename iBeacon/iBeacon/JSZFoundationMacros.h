@@ -22,6 +22,7 @@ _Pragma("clang diagnostic pop") \
 #define JSZSelector(selectorName) NSStringFromSelector(@selector(selectorName))
 #define JSZBool(boolValue) (boolValue ? @"YES" : @"NO")
 
-#define JSZKey(object, selector) ({ __typeof(object) someObject = nil; if (NO) { (void)((someObject).selector); } @#selector; })
+// the NO if statement doesn't run but is a compiler check to test if the object containst the key
+#define JSZKey(object, selector) ({ __typeof(object) testObject = nil; if (NO) { (void)((testObject).selector); } @#selector; })
 
 #endif
