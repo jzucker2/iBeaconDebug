@@ -10,6 +10,7 @@
 
 @interface ViewController : UIViewController
 
++ (NSSet *)keyPathsToObserveForPeripheralManager;
 
 @end
 

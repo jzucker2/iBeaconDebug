@@ -9,7 +9,11 @@
 @import CoreLocation;
 @import CoreBluetooth;
 
+#import <BlocksKit/BlocksKit.h>
 #import <CocoaLumberjack/CocoaLumberjack.h>
+
+#import "NSDictionary+Additions.h"
+#import "JSZFoundationMacros.h"
 
 #import "Constants.h"
 #import "ViewController.h"
@@ -20,6 +24,7 @@
 @property (nonatomic) UIImageView *iBeaconImageView;
 @property (nonatomic) UIButton *iBeaconButton;
 @property (nonatomic) CBPeripheralManager *peripheralManager;
+@property (nonatomic) NSTimer *updateTimer;
 @end
 
 @implementation ViewController
@@ -49,7 +54,45 @@
     self.iBeaconButton.center = self.view.center;
 }
 
+#pragma mark - Properties
+
+- (void)setPeripheralManager:(CBPeripheralManager *)peripheralManager {
+    for (NSString *keyPath in [[self class] keyPathsToObserveForPeripheralManager]) {
+        [peripheralManager addObserver:self forKeyPath:keyPath options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
+        [_peripheralManager removeObserver:self forKeyPath:keyPath];
+    }
+    _peripheralManager = peripheralManager;
+}
+
+#pragma mark - KVO
+
++ (NSSet *)keyPathsToObserveForPeripheralManager {
+    NSMutableSet *keyPaths = [NSMutableSet set];
+    [keyPaths addObject:JSZKey(CBPeripheralManager *, isAdvertising)];
+    
+    return [keyPaths copy];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if (self.updateTimer.isValid) {
+        return;
+    }
+    
+    if ([change containsActualKVOChangeForObject_JSZ:object]) {
+        JSZWeakify(self);
+        self.updateTimer = [NSTimer bk_scheduledTimerWithTimeInterval:0 block:^(NSTimer *timer) {
+            JSZStrongify(self);
+            [self update];
+            self.updateTimer = nil;
+        } repeats:NO];
+    }
+}
+
 #pragma mark - View updates
+
+- (void)update {
+    [self updateiBeaconButton];
+}
 
 - (void)updateiBeaconButton {
     self.iBeaconButton.selected = self.peripheralManager.isAdvertising;
@@ -60,10 +103,11 @@
 - (void)iBeaconButtonTapped:(id)sender {
     if (self.peripheralManager.isAdvertising) {
         [self stopAdvertising];
+//        [self update];
     } else {
         [self startAdvertising];
     }
-    [self updateiBeaconButton];
+//    [self update];
 }
 
 #pragma mark - CBPeripheralManager
@@ -82,7 +126,7 @@
 
 - (void)peripheralManagerDidStartAdvertising:(CBPeripheralManager *)peripheral error:(NSError *)error {
     DDLogDebug(@"peripheralManagerDidStartAdvertising: %@ error: %@", peripheral, error);
-    [self updateiBeaconButton];
+//    [self update];
 }
 
 - (void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		975B2A1C1ACDB983007BFE02 /* NSDictionary+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 975B2A1B1ACDB983007BFE02 /* NSDictionary+Additions.m */; };
 		97F037621ACD236E001639BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F037611ACD236E001639BF /* main.m */; };
 		97F037651ACD236E001639BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F037641ACD236E001639BF /* AppDelegate.m */; };
 		97F037681ACD236E001639BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F037671ACD236E001639BF /* ViewController.m */; };
@@ -30,6 +31,9 @@
 /* Begin PBXFileReference section */
 		36392665272F859BCE2ED173 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		42050C67CDF06A51926C1F2E /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		975B2A1A1ACDB983007BFE02 /* NSDictionary+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Additions.h"; sourceTree = "<group>"; };
+		975B2A1B1ACDB983007BFE02 /* NSDictionary+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Additions.m"; sourceTree = "<group>"; };
+		975B2A1D1ACDBA8A007BFE02 /* JSZFoundationMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSZFoundationMacros.h; sourceTree = "<group>"; };
 		97F0375C1ACD236E001639BF /* iBeacon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iBeacon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97F037601ACD236E001639BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		97F037611ACD236E001639BF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -75,6 +79,16 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		975B2A191ACDB965007BFE02 /* Additions */ = {
+			isa = PBXGroup;
+			children = (
+				975B2A1A1ACDB983007BFE02 /* NSDictionary+Additions.h */,
+				975B2A1B1ACDB983007BFE02 /* NSDictionary+Additions.m */,
+				975B2A1D1ACDBA8A007BFE02 /* JSZFoundationMacros.h */,
+			);
+			name = Additions;
+			sourceTree = "<group>";
+		};
 		97F037531ACD236D001639BF = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +117,7 @@
 				97F037641ACD236E001639BF /* AppDelegate.m */,
 				97F037661ACD236E001639BF /* ViewController.h */,
 				97F037671ACD236E001639BF /* ViewController.m */,
+				975B2A191ACDB965007BFE02 /* Additions */,
 				97F037691ACD236E001639BF /* Main.storyboard */,
 				97F0376C1ACD236E001639BF /* Images.xcassets */,
 				97F0376E1ACD236E001639BF /* LaunchScreen.xib */,
@@ -285,6 +300,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				975B2A1C1ACDB983007BFE02 /* NSDictionary+Additions.m in Sources */,
 				97F037681ACD236E001639BF /* ViewController.m in Sources */,
 				97F037651ACD236E001639BF /* AppDelegate.m in Sources */,
 				97F037621ACD236E001639BF /* main.m in Sources */,
