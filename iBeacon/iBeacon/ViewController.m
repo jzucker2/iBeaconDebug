@@ -53,6 +53,7 @@
     } else {
         [self startAdvertising];
     }
+    self.iBeaconButton.selected = self.peripheralManager.isAdvertising;
 }
 
 #pragma mark - iBeacon
