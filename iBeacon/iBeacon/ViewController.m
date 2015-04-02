@@ -9,10 +9,14 @@
 @import CoreLocation;
 @import CoreBluetooth;
 
+#import <CocoaLumberjack/CocoaLumberjack.h>
+
 #import "Constants.h"
 #import "ViewController.h"
 
-@interface ViewController ()
+@interface ViewController () <
+                                CBPeripheralManagerDelegate
+                            >
 @property (nonatomic) UIImageView *iBeaconImageView;
 @property (nonatomic) UIButton *iBeaconButton;
 @property (nonatomic) CBPeripheralManager *peripheralManager;
@@ -23,7 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    self.peripheralManager = [[CBPeripheralManager alloc] initWithDelegate:nil queue:nil];
+    self.peripheralManager = [[CBPeripheralManager alloc] initWithDelegate:self queue:nil];
     
     self.iBeaconButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.iBeaconButton setTitle:NSLocalizedString(@"Turn on iBeacon", nil) forState:UIControlStateNormal];
@@ -45,6 +49,12 @@
     self.iBeaconButton.center = self.view.center;
 }
 
+#pragma mark - View updates
+
+- (void)updateiBeaconButton {
+    self.iBeaconButton.selected = self.peripheralManager.isAdvertising;
+}
+
 #pragma mark - Actions
 
 - (void)iBeaconButtonTapped:(id)sender {
@@ -53,7 +63,7 @@
     } else {
         [self startAdvertising];
     }
-    self.iBeaconButton.selected = self.peripheralManager.isAdvertising;
+    [self updateiBeaconButton];
 }
 
 #pragma mark - CBPeripheralManager
@@ -66,6 +76,17 @@
 
 - (void)stopAdvertising {
     [self.peripheralManager stopAdvertising];
+}
+
+#pragma mark - CBPeripheralManagerDelegate
+
+- (void)peripheralManagerDidStartAdvertising:(CBPeripheralManager *)peripheral error:(NSError *)error {
+    DDLogDebug(@"peripheralManagerDidStartAdvertising: %@ error: %@", peripheral, error);
+    [self updateiBeaconButton];
+}
+
+- (void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral {
+    DDLogDebug(@"peripheralManagerDidUpdateState: %@ state: %@", peripheral, @(peripheral.state));
 }
 
 @end
