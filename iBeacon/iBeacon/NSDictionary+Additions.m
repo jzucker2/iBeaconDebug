@@ -11,13 +11,6 @@
 @implementation NSDictionary (Additions)
 
 - (BOOL)containsActualKVOChangeForObject_JSZ:(id)object {
-//    if ([object isKindOfClass:[NSManagedObject class]]) {
-//        NSManagedObject *managedObject = object;
-//        if (managedObject.faultingState > 0 || managedObject.isDeleted) {
-//            return NO;
-//        }
-//    }
-    
     id oldValue = self[NSKeyValueChangeOldKey];
     id newValue = self[NSKeyValueChangeNewKey];
     
